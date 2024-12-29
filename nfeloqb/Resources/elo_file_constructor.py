@@ -4,10 +4,9 @@ import numpy
 class EloConstructor():
     ## this class takes in the updated model data, next weeks games, and ##
     ## the original elo file to create a new elo file in the same format ##
-    def __init__(self, games, qb_model, at_wrapper, elo, export_loc):
+    def __init__(self, games, qb_model, elo, export_loc):
         self.games = games.copy()
         self.qb_model = qb_model ## an updated QBModel Class object ##
-        self.at_wrapper = at_wrapper ## an updated AirtableWrapper Class object ##
         self.elo = elo ## an updated Elo Class object ##
         self.export_loc = export_loc ## location to export new file ##
         self.qb_values = pd.DataFrame(qb_model.data)

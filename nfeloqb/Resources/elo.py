@@ -2,6 +2,9 @@ import pandas as pd
 import numpy
 import pathlib
 
+from utils import load_win_total_ratings
+
+
 class Elo():
     ## class for calculating the 538 elo models ##
     def __init__(self, game, qb_df, base=1505, k=20, b=400, reg=.33, reg_vegas=.66, hfa_roll=10, rest=25, no_fan=33, playoff=1.2):
@@ -9,7 +12,7 @@ class Elo():
         self.game = game.copy()
         self.qb_df = qb_df.copy()
         data_folder = pathlib.Path(__file__).parent.parent.resolve()
-        self.wt_ratings = pd.read_csv('{0}/Manual Data/wt_ratings.csv'.format(data_folder))
+        self.wt_ratings = load_win_total_ratings()
         ## model variables ##
         self.base = base
         self.k = k

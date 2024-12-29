@@ -5,7 +5,7 @@ import math
 import pathlib
 
 
-class QBModel():
+class QBModel:
     ## This class is used to store, retrieve, and update data as we
     ## iterate over the game file ##
     def __init__(self, games, model_config):

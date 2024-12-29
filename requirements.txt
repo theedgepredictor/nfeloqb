@@ -2,3 +2,5 @@ pandas
 numpy
 nfelodcm
 python-dotenv
+nfelodcm
+pyarrow

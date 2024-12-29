@@ -9,7 +9,7 @@ import pandas as pd
 import nfelodcm as dcm
 
 ## import resources ##
-from .Resources import *
+from Resources import *
 
 ## import env ##
 import os
@@ -35,7 +35,7 @@ def run(perform_starter_update=False, model_only=False, force_run=False):
     with open('{0}/package_meta.json'.format(package_folder)) as fp:
         meta = json.load(fp)
     ## init AT ##
-    at_wrapper = AirtableWrapper(
+    '''at_wrapper = AirtableWrapper(
         None,
         at_config={
             'base' : os.environ.get('AIRTABLE_BASE'),
@@ -58,6 +58,7 @@ def run(perform_starter_update=False, model_only=False, force_run=False):
     if last_package_update is not None and not force_run:
         if last_starter_change < pd.to_datetime(last_package_update, utc=True) and last_full_week == last_package_week:
             return None
+    '''
     ## load data ##
     data = DataLoader()
     ## run model ##
@@ -67,9 +68,9 @@ def run(perform_starter_update=False, model_only=False, force_run=False):
     if model_only:
         return model
     ## update starters ##
-    at_wrapper.model_df = model.games
-    at_wrapper.update_qb_table()
-    at_wrapper.update_qb_options()
+    #at_wrapper.model_df = model.games
+    #at_wrapper.update_qb_table()
+    #at_wrapper.update_qb_options()
     ## The script will run automatically now, which means the starters will be updated outside
     ## of this process ##
     ##      at_wrapper.update_starters()
@@ -83,6 +84,7 @@ def run(perform_starter_update=False, model_only=False, force_run=False):
         pd.DataFrame(model.data)
     )
     elo.run()
+    '''
     ## construct elo file ##
     constructor = EloConstructor(
         data.games,
@@ -101,4 +103,7 @@ def run(perform_starter_update=False, model_only=False, force_run=False):
             },
             fp
         )
+    '''
 
+if __name__ == "__main__":
+    run()

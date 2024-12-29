@@ -5,6 +5,9 @@ import pathlib
 
 import nfelodcm as dcm
 
+from utils import collect_player_stats, load_players, get_schedules, load_missing_draft_data
+
+
 class DataLoader():
     ## this class retrieves, loads, and merges data ##
     def __init__(self):
@@ -12,19 +15,17 @@ class DataLoader():
         self.model_df = None
         self.games_df = None
         ## load external data ##
-        self.db = dcm.load([
-            'games',
-            'players',
-            'player_stats'
-        ])
-        ## variabbles
+        self.db = {}
+        self.db['player_stats'] = collect_player_stats()
+        self.db['games'] = get_schedules()
+        self.db['players'] = load_players()
+
         self.stat_cols = [
             'completions', 'attempts', 'passing_yards', 'passing_tds',
             'interceptions', 'sacks', 'carries', 'rushing_yards', 'rushing_tds'
         ]
         ## load file path ##
         data_folder = pathlib.Path(__file__).parent.parent.resolve()
-        self.missing_draft_data = '{0}/Manual Data/missing_draft_data.csv'.format(data_folder)
         ## get data on load ##
         self.pull_data()
         
@@ -47,10 +48,7 @@ class DataLoader():
         ## and will be added ##
         def add_missing_draft_data(df):
             ## load missing draft data ##
-            missing_draft = pd.read_csv(
-                self.missing_draft_data,
-                index_col=0
-            )
+            missing_draft = load_missing_draft_data()
             ## groupby id to ensure no dupes ##
             missing_draft = missing_draft.groupby(['player_id']).head(1)
             ## rename the cols, which will fill if main in NA ##
